@@ -1,0 +1,41 @@
+name: password_app
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  drift: ^2.16.0
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.0.0
+  path: ^1.8.0
+  
+  # Encryption (AES-256) - REQUIRED for our app logic
+  encrypt: ^5.0.3
+
+  # Persistent Storage for saving the custom Master PIN
+  shared_preferences: ^2.3.2
+
+  # The following adds the Cupertino Icons font to your application.
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  drift_dev: ^2.16.0
+  build_runner: ^2.4.0
+
+  # The "flutter_lints" package below contains a set of recommended lints
+  flutter_lints: ^6.0.0
+
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application.
+  uses-material-design: true
