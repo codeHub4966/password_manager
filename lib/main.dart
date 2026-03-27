@@ -12,7 +12,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   db = AppDatabase();
-  await db.seedInitialData();
+  // FIX: seedInitialData removed from here to prevent premature encryption
   runApp(const PasswordManagerApp());
 }
 

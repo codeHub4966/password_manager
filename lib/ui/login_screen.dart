@@ -44,6 +44,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _savePinAndLogin(String pin) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('master_pin', pin);
+    
+    // FIX: Mock data is now perfectly seeded AFTER the PIN is created and saved
+    await db.seedInitialData();
+    
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
@@ -159,8 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Row(
                     children: [
                       Icon(Icons.lock, color: Colors.greenAccent, size: 14),
-                      SizedBox(width: 4),
-                      Text('SECURE SESSION', style: TextStyle(color: Colors.greenAccent, fontSize: 10, fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 4),
+                      const Text('SECURE SESSION', style: TextStyle(color: Colors.greenAccent, fontSize: 10, fontWeight: FontWeight.bold)),
                     ],
                   )
                 ],
@@ -224,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     title: const Row(
                       children: [
                         Icon(Icons.warning_amber_rounded, color: Colors.redAccent),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text('Reset App & PIN?', style: TextStyle(color: Colors.white)),
                       ],
                     ),
@@ -247,8 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // 2. Wipe the entire SQLite database (Deletes all passwords)
                           await db.delete(db.passwordEntries).go();
                           
-                          // 3. FIX: Re-seed the initial mock data to simulate "first download" state!
-                          await db.seedInitialData();
+                          // FIX: Removed `await db.seedInitialData();` from here so it doesn't run early.
                           
                           if (!context.mounted) return;
                           Navigator.pop(context); // Close the dialog
@@ -287,7 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.circle, color: Colors.greenAccent, size: 8),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text('APP IS ENCRYPTED WITH AES-256', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
                 ],
               ),

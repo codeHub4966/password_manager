@@ -36,6 +36,20 @@ class AppDatabase extends _$AppDatabase {
 
   // --- MOCK DATA ---
   Future<void> seedInitialData() async {
+    final currentData = await select(passwordEntries).get();
+    
+    // FIX: Auto-Heal corrupted "Decryption Error" data
+    if (currentData.isNotEmpty) {
+      try {
+        final testDecrypt = EncryptionService.decryptData(currentData.first.encryptedPassword);
+        if (testDecrypt == 'Decryption Error' || testDecrypt.isEmpty) {
+          await delete(passwordEntries).go();
+        }
+      } catch (e) {
+        await delete(passwordEntries).go();
+      }
+    }
+
     final count = await select(passwordEntries).get();
     if (count.isEmpty) {
       await batch((batch) {
