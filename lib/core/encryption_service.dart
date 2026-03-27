@@ -8,7 +8,7 @@ class EncryptionService {
   static final _key = encrypt.Key.fromUtf8('my32lengthsupersecretnooneknows1');
   
   // Initialization Vector (IV) ensures identical plaintexts encrypt to different ciphertexts.
-  static final _iv = encrypt.IV.fromLength(16);
+  static final _iv = encrypt.IV.fromUtf8('my16lengthivsecr');
   
   // Create the AES encrypter instance
   static final _encrypter = encrypt.Encrypter(encrypt.AES(_key, mode: encrypt.AESMode.cbc));
