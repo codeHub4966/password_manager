@@ -40,16 +40,20 @@ class AppDatabase extends _$AppDatabase {
     if (count.isEmpty) {
       await batch((batch) {
         batch.insertAll(passwordEntries, [
-          // WEAK: length 7, 1 criteria (numbers)
-          _createMock('University Portal', 'student123', 'pass123', 'Main login', 'Work', 'First pet name? Max'),
-          // STRONG: length 12, 4 criteria
-          _createMock('Maybank', 'user_bank', 'MoneySave\$20', 'Do not share', 'Banking', 'Mother maiden name? Smith'),
-          // FAIR: length 12, 3 criteria (no symbols)
-          _createMock('Instagram', 'cool_user', 'PhotoGram123', 'Private account', 'Social', 'Childhood hero? Batman'),
-          // WEAK: length 5, 0 criteria
-          _createMock('Google', 'user@gmail.com', 'hello', 'Primary email', 'Other', 'Favorite color? Blue'),
-          // STRONG: length 14, 4 criteria
-          _createMock('GitHub', 'dev_student', 'CommitPush123!', 'Repo access', 'Work', 'First car? Civic'),
+          // WEAK: length 14, 1 criteria (lowercase only)
+          _createMock('University Portal', 'student123', 'simplepassword', 'Main login', 'Work', 'First pet name? Max'),
+          
+          // STRONG: length 13, 4 criteria (Caps, lowercase, numbers, symbols)
+          _createMock('Maybank', 'user_bank', 'Super\$ecure99!', 'Do not share', 'Banking', 'Mother maiden name? Smith'),
+          
+          // FAIR: length 12, 3 criteria (Caps, lowercase, numbers. NO symbols)
+          _createMock('Instagram', 'cool_user', 'FairPass2026', 'Private account', 'Social', 'Childhood hero? Batman'),
+          
+          // WEAK: length 6, 2 criteria (Caps, lowercase, numbers, but length < 8)
+          _createMock('Google', 'user@gmail.com', 'Goog1e', 'Primary email', 'Other', 'Favorite color? Blue'),
+          
+          // STRONG: length 11, 4 criteria (Caps, lowercase, numbers, symbols)
+          _createMock('GitHub', 'dev_student', 'Dev#Code123', 'Repo access', 'Work', 'First car? Civic'),
         ]);
       });
     }
@@ -59,6 +63,7 @@ class AppDatabase extends _$AppDatabase {
     return PasswordEntriesCompanion.insert(
       siteName: site,
       username: user,
+      // The password is encrypted here. Make sure the Master PIN is set before this runs!
       encryptedPassword: EncryptionService.encryptData(pass),
       notes: Value(note),
       category: Value(category),
